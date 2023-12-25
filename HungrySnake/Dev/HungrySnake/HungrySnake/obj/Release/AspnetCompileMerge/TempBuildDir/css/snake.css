@@ -1,0 +1,272 @@
+@font-face {
+  font-family: IDYuanExtra;
+  src: url(font/IDYuanExtra.eot); /* IE9 Compat Modes */
+  src: url(font/IDYuanExtra.eot?#iefix) format("embedded-opentype"), /* IE6-IE8 */
+       url(font/IDYuanExtra.woff) format("woff"), /* Modern Browsers */
+       url(font/IDYuanExtra.ttf) format("truetype"), /* Safari, Android, iOS */
+       url(font/IDYuanExtra.svg#SealmemoryHeader) format("svg"); /* Legacy iOS */
+}
+body,div,p,li{
+	font-family: IDYuanExtra,'cwTeXYen',"標楷體", "DFKai-sb",
+    "微軟正黑體", "Microsoft JhengHei", sans-serif;
+}
+p{
+	display: inline-block;
+}
+li {
+	font-weight: bold;
+	display: -moz-inline-stack;
+	display: inline-block;
+	zoom: 1;
+	*display: inline;
+	width: auto;
+	color:#FEAD28;
+}
+#snake {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	z-index: 88;
+}
+
+.drop-item,
+.drop-item-remove {
+	position: absolute;
+	top: 0;
+	left: 0;
+	margin: 0px;
+	padding: 0px;
+	z-index: 88;
+}
+
+
+/*水平横穿*/
+
+#drop-item.vertical {
+	width: 50px;
+	height: 300px;
+	top: 0px;
+	left: 70px;
+}
+
+
+/*垂直横穿样式*/
+
+#drop-item b {
+	color: red;
+}
+
+#drop-item div {
+	font-size: 12px;
+	color: green;
+}
+
+body:before {
+  content: "";
+  display: block;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -10;
+  background: url(../images/bg.jpg) repeat center center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  font-size:13px;
+}
+
+/*
+.index-bg .panel-body{
+  	background: url(../images/index_bg.jpg) no-repeat center center;
+	-webkit-background-size: contain;
+  	-moz-background-size: contain;
+  	-o-background-size: contain;
+	background-size: contain;
+	background-attachment: fixed;
+	position: relative;
+    top: 0px;
+}
+*/
+
+h1 {
+	color: #FF3333;
+}
+
+h2 {
+	color: #FF3333;
+}
+
+.panel {
+	background-color: transparent;
+}
+
+.panel-header {
+	position: absolute;
+	padding: 5px 0px;
+	background-image: url(../images/header-bg.png);
+	background-size: cover;
+	z-index: 899;
+	width: 100%;
+	height:100px;
+}
+
+.panel-header li {
+	color:#FEAD28;
+	font-weight:bold;
+}
+
+.panel-header .header-level {
+	position: absolute;
+	bottom: 0px;
+	right: 2%;
+	height: 100%;
+	display: inline-block;
+}
+
+.panel-header .header-score {
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	height: 100%;
+	display: inline-block;
+/*	margin-left: 20px;*/
+}
+
+.panel-ground {
+	position: relative;
+	overflow: hidden;
+	padding: 0px;
+}
+
+.panel-sink {
+	position: absolute;
+	padding: 0px;
+/*	background-image: url('../images/background.jpg');*/
+/*	background-size: cover;*/
+	width: 100%;
+	z-index: 1;
+}
+.panel-background{
+	position: absolute;
+	padding: 0px;
+	width: 100%;
+	z-index: 1;
+}
+.nextSink {
+	z-index: 2;
+}
+
+.prevSink {
+	z-index: 3;
+}
+
+.title {
+	font-size: 15px;
+	color: white;
+}
+
+.panel-body,
+.panel-footer {
+	position: relative;
+	overflow: hidden;
+	padding: 0px;
+}
+
+.startWindow {
+	width: 100%;
+	position: absolute;
+	text-align: center;
+	top:45%;
+	z-index: 99;
+}
+.introWindows{
+	width: 100%;
+	position: absolute;
+	text-align: center;
+	padding: 10px;
+	margin: 10px;
+	z-index: 99;
+}
+.shareWindow {
+	width: 100%;
+	position: absolute;
+	text-align: center;
+	z-index: 99;
+	font-weight: bold;
+	background-image: url(../images/result-bg.jpg);
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+.shareWindow-content{
+	position:absolute;
+	top:0px;
+	left:10px
+}
+.shareWindow-content p{
+	margin: 0 auto;
+}
+.fallingsky{
+	position: absolute;
+	width:100%;
+	top:-100%;
+	z-index: 100;
+}
+.showMsg {
+	width: 100%;
+	position: absolute;
+	text-align: center;
+	opacity: 0.8;
+	z-index: 99;
+}
+
+#sgowMsg {
+	display: none;
+}
+
+.snake {
+	padding: 0px;
+	margin: 0px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 0px auto;
+	position:absolute;
+}
+
+.container {
+	padding: 0px;
+	margin: 0px;
+	height: 100%;
+}
+
+.box {
+	max-width: 430px;
+	text-align: center;
+}
+
+.center {
+	margin: 0px auto;
+}
+
+.fullwidth {
+	width: 95%;
+}
+.big_blank_row {
+	height: 115px;
+}
+.middle_blank_row {
+	height: 75px;
+}
+
+.small_blank_row {
+	height: 25px;
+}
+.close_intro{
+	position:absolute;
+	top: 7%;
+	right: 5%;
+	width: 9%;
+}

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<link rel="icon" href="images/favicon.png">
+	<title>貪吃的魯蛇</title>
+	<meta property="og:type" content="website">
+	<meta property="og:title" content="貪吃的魯蛇">
+	<meta property="og:description" content="吃遍各式小吃，用盡吃奶的力氣閃避來自前方的的炸彈和障礙物吧！">
+	<meta property="og:image" content="http://snake-nm.efuntw.com/images/snake_share.jpg">
+	<meta property="og:image:width" content="1200">
+	<meta property="og:image:height" content="628">
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="src/bootstrap/css/bootstrap.min.css">
+	<link href="css/snake.css?ver=1.91" rel="stylesheet" media="screen">
+	<link rel="stylesheet" href="src/fancybox/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+	
+	<style type="text/css">
+		.row {
+/*			font-family: 'cwTeXYen', sans-serif;*/
+			text-align: left;
+			color: #FCF078;
+			white-space: nowrap;
+			margin-bottom: 3px;
+/*			font-size: 90%;
+			font-weight: 700;
+			line-height: 1;*/
+		}
+		._data_container{
+			padding: 0px 0px 0px 5%;
+			background-image: url(images/rank_bg.png);
+			background-size: cover;
+			
+		}
+		.fancybox-margin {
+			margin-right: 17px;
+		}
+		.index-logo, .startGame,.index-bg {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin: 0px auto;
+		}
+	</style>
+</head>
+
+<body style="overflow-y:scroll;">
+	<script>
+		var pagesize = 20;
+		var more_global = true;
+		var offset_global = 0;
+		var more_friends = true;
+		var offset_friends = 0;
+		var current_tab = '';
+		var friend_list = [];
+		var screenWidth = 0;
+		//var friend_list_after = '';
+		// This is called with the results from from FB.getLoginStatus().
+		function checkLoginState() {
+			FB.getLoginStatus(function (response) {
+				statusChangeCallback(response);
+			});
+		}
+		String.format = function () {
+			var s = arguments[0];
+			for (var i = 0; i < arguments.length - 1; i++) {
+				var reg = new RegExp("\\{" + i + "\\}", "gm");
+				s = s.replace(reg, arguments[i + 1]);
+			}
+			return s;
+		}
+		GetFriendList = function (friend_list_after) {
+			FB.api('/me/friends/', 'GET', {
+				"field": "id,name"
+				, 'after': friend_list_after
+			}, function (response) {
+				// Insert your code here
+				response.data.forEach(function (item) {
+					friend_list.push(item.id);
+				});
+				if (response.data.length != 0) {
+					GetFriendList(response.paging.cursors.after);
+				}
+				else {
+					console.log(friend_list);
+					GetFriendRankList();
+				}
+			});
+		}
+		GetRankList = function (type, id) {
+				var response = [];
+				if (type == "global") {
+					if (more_global) {
+						more_global = false;
+						$.getJSON("api/Rank", {
+							'offset': offset_global
+							, 'pagesize': pagesize
+						}, function (data) {
+							more_global = (data.ranks.length == pagesize);
+							CreateRowData($("#global"), data.ranks);
+						});
+					}
+				}
+			}
+			// 取得好友排行榜
+		GetFriendRankList = function () {
+				if (more_friends) {
+					$.ajax({
+						url: "api/Rank"
+						, data: {
+							'id': friend_list
+						}
+						, traditional: true
+						, success: function (data) {
+							more_friends = (data.ranks.length == pagesize);
+							CreateRowData($("#myfriends"), data.ranks);
+						}
+					});
+				}
+			}
+			// 產生資料行
+		CreateRowData = function (target, data) {
+				data.forEach(function (item) {
+					//var rowItem = '<tr> <td><img src="http://graph.facebook.com/' + item.id + '/picture" height="30px"></td><td>' + item.name + '</td><td>' + item.gametime + '</td><td>' + item.score + '</td></tr>';
+					var rowItem = '<div class="row"><div class="col-sm-1 col-xs-1"><img src="http://graph.facebook.com/' + item.id + '/picture" height="' + screenWidth/17 + '"></div>'
+					+ '<div class="col-sm-3 col-xs-4">' + item.name + '</div>'
+					+'<div class="col-sm-3 col-xs-2">' + item.score + ' 公尺</div>';
+					switch (item.beat){
+						case 0:
+							rowItem += '<div class="col-sm-5 col-xs-4">被所有人擊敗了</div></div>';
+							break;
+						case -1:
+							rowItem += '<div class="col-sm-5 col-xs-4">MVP:所向無敵</div></div>';
+							break;
+						default:
+							rowItem += '<div class="col-sm-5 col-xs-4">擊敗' + item.beat + '位玩家</div></div>';
+							break;		
+					}
+					console.log(rowItem);
+					$(target).append(rowItem);
+				});
+			}
+			// 檢臺fb登入狀態
+		function statusChangeCallback(response) {
+			console.log('statusChangeCallback');
+			console.log(response);
+			if (response.status === 'connected') {
+				$(".login-button").hide();
+				$(".myfriends").show();
+				friend_list = [];
+				friend_list.push(response.authResponse.userID);
+				GetFriendList('');
+				getMe();
+			}
+			else {
+				//else if (response.status === 'not_authorized') {
+				$(".btn-fblogin").show();
+				$(".myfriends").hide();
+			}
+		}
+		window.fbAsyncInit = function () {
+			setCookie("fbuid", '', -1);
+			setCookie("fbname", '', -1);
+			FB.init({
+				appId: '1630743700553639'
+				, cookie: true, // enable cookies to allow the server to access the session
+				xfbml: true, // parse social plugins on this page
+				version: 'v2.8' // use graph api version 2.8
+			});
+			FB.getLoginStatus(function (response) {
+				statusChangeCallback(response);
+			});
+		};
+		// Load the SDK asynchronously
+		(function (d, s, id) {
+			var js, fjs = d.getElementsByTagName(s)[0];
+			if (d.getElementById(id)) return;
+			js = d.createElement(s);
+			js.id = id;
+			js.src = "//connect.facebook.net/en_US/sdk.js";
+			fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+		// Here we run a very simple test of the Graph API after login is
+		// successful.  See statusChangeCallback() for when this call is made.
+		function getMe() {
+			FB.api('/me', function (response) {
+				console.log('Successful login for: ' + response.name);
+				setCookie("fbuid", response.id, (1 / 24));
+				setCookie("fbname", response.name, (1 / 24));
+				return response.id;
+			});
+		}
+		function fb_login(){
+			FB.login(function(response) {
+				statusChangeCallback(response);
+			}, {
+				scope: 'user_photos,user_friends,email'
+			});
+		}
+		function setCookie(cname, cvalue, exdays) {
+			var d = new Date();
+			d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+			var expires = "expires=" + d.toUTCString();
+			document.cookie = cname + "=" + encodeURIComponent(cvalue) + ";" + expires + ";path=/";
+		}
+	</script>
+	<!--
+  Below we include the Login Button social plugin. This button uses
+  the JavaScript SDK to present a graphical Login button that triggers
+  the FB.login() function when clicked.
+-->
+	<div class="container center">
+		<div class="panel box center">
+			<div class="index-bg"><img id="index-bg" style="position:fixed;top:0px;max-width: 430px;" src="images/index_bg.jpg" width="100%"/></div>
+			<div class="panel-body center">
+				<div class="introWindows center" style="display:none">
+					<div class="close_intro" onclick="$(this).parent().hide();" ><img src="images/close_btn.png" width="100%" height="100%"/></div>
+					<div class="intro_page center"><img src="images/intro_page.png" width="100%" height="100%" /></div>
+				</div>
+
+				<div class="index-logo"><img src="images/snake_logo.png" class="logo"></div>
+				<div class="startGame"><img border="0" alt="Start Game" src="images/start.png"></div>
+				<a class="intro_btn" href="javascript:$('.introWindows').show();"><img border="0" alt="How to play" src="images/btn_intro.png"></a>
+				
+				<p>
+					<a class="global" href="javascript:void(0);"><img border="0" alt="Global Rank" src="images/global_rank_button.png"></a>
+					<a class="myfriends" style="display:none" href="javascript:void(0);"><img border="0" alt="Friend Rank" src="images/friend_rank.png"></a>
+					<a class="btn-fblogin" style="display:none" href="#" onclick="fb_login();"><img src="images/facebook_login.png" border="0" alt=""></a>
+				</p>
+				<div id="global" class="_data_container">
+				</div>
+				<div id="myfriends" class="_data_container" style="display: none;">
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<!--<fb:login-button scope="public_profile,email,user_location,user_friends,user_photos" onlogin="checkLoginState();"> </fb:login-button>
+        <div class="fb-like" data-share="true" data-width="450" data-show-faces="true"> </div>
+        <div id="status"> </div>
+        <div id="friend-list"></div>-->
+	<script type="text/javascript" src="js/jquery-3.1.1.js"></script>
+	<script src="src/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="src/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+	<script type="text/javascript">
+		$(function () {
+			$('#myfriends').hide();
+			$('.global').on('click', function () {
+				current_tab = 'global';
+				$('#myfriends').hide();
+				$('#global').show();
+			});
+			$('.myfriends').on('click', function () {
+				current_tab = 'friends';
+				$('#myfriends').show();
+				$('#global').hide();
+			});
+			$(window).scroll(function () {
+				if ($(window).scrollTop() + $(window).height() == $(document).height()) {
+					console.log('scroll touch done');
+					if (current_tab == 'global' && more_global) GetRankList(current_tab);
+				}
+			});
+			screenWidth = $('.box').width();
+			height = Math.max(window.screen.height,$(window).height());
+			var a = height * (isMobile.any() ? 0.37 : 0.25 );//* ($("#index-bg").width()/$("#index-bg").height());
+			$('.index-logo').height(a);
+			if (isMobile.any()){$("#index-bg").css('left','0px');}
+			$("#index-bg").width(screenWidth);
+			var btn_start_w = screenWidth/3 - 10 ;
+			var btn_start_h = screenWidth/2.5 -10 ;
+			$('.startGame').css({'width':btn_start_w + 10,'height':a});
+			$('.startGame img').css({'width':btn_start_w,'height':btn_start_h});
+			$('.startGame img').hover(
+				function(){$(this).css({'width':(btn_start_w)+5,'height':(btn_start_h)+5});},
+				function(){$(this).width((btn_start_w)).height((btn_start_h));}).on('click', function(){$(this).animate({
+				width: (btn_start_w) - 5,
+				height: (btn_start_h) - 5
+			  }, 'fast', function() {
+				$(this).animate({
+				width: (btn_start_w),
+				height: (btn_start_h)
+			  }, 'fast',function(){document.location.href = 'hungrysnake.html';});
+			})});
+			$('.logo').css({'width':screenWidth/2,'height':screenWidth/3});
+			
+//			$('#bg img').prop('width',screenWidth).prop('height',height).parent()
+//				.css({'width':screenWidth,'height':height,'position':'absolute','left':'0px','top':'0px','z-index':-1});
+			$('.intro_btn img').css({'width':(screenWidth/7)*2.5,'height':screenWidth/7});
+			$('.global img').css({'width':(screenWidth/7)*2.5,'height':screenWidth/8}).hover(function(){$(this).prop('src','images/global_rank_button_hover.png')},function(){$(this).prop('src','images/global_rank_button.png')});
+			$('.myfriends img').css({'width':(screenWidth/7)*2.5,'height':screenWidth/8}).hover(function(){$(this).prop('src','images/friend_rank_hover.png')},function(){$(this).prop('src','images/friend_rank.png')});
+			$(".btn-fblogin img").css({'width':(screenWidth/7)*2.5,'height':screenWidth/8});
+			$(".fancybox").attr('rel', 'gallery')
+			.fancybox({
+				type: 'iframe',
+				maxWidth	: (screenWidth*0.75),
+				maxHeight	: (height*0.55),
+				autoSize : true
+			});
+			//var act = GetQueryStringParams('act') 
+			//if (act == '' || act == undefined) {
+			//	$('.introWindows').show();
+			//}
+			GetRankList('global');
+		});
+		var isMobile = {
+			Android: function() {
+				return navigator.userAgent.match(/Android/i);
+			},
+			BlackBerry: function() {
+				return navigator.userAgent.match(/BlackBerry/i);
+			},
+			iOS: function() {
+				return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+			},
+			Opera: function() {
+				return navigator.userAgent.match(/Opera Mini/i);
+			},
+			Windows: function() {
+				return navigator.userAgent.match(/IEMobile/i) || navigator.userAgent.match(/WPDesktop/i);
+			},
+			any: function() {
+				return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+			}
+		};
+		function GetQueryStringParams(sParam) {
+			var sPageURL = window.location.search.substring(1);
+			var sURLVariables = sPageURL.split('&');
+			for (var i = 0; i < sURLVariables.length; i++) {
+				var sParameterName = sURLVariables[i].split('=');
+				if (sParameterName[0] == sParam) {
+					return sParameterName[1];
+				}
+			}
+		}
+	</script>
+</body>
+
+</html>

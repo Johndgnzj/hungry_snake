@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>魯蛇逛夜市</title>
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="魯蛇逛夜市">
+    <meta property="og:description" content="吃遍各式小吃，用盡吃奶的力氣閃避來自前方的的炸彈和障礙物吧！">
+    <meta property="og:image" content="http://audance.com.tw/images/share/share2.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="628">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="Shortcut Icon" type="image/x-icon" href="images/snake_logo.png">
+    <link rel="stylesheet" href="src/bootstrap/css/bootstrap.min.css">
+    <link href="css/snake.css?ver=1.0" rel="stylesheet" media="screen">
+    <style type="text/css">
+        .fancybox-margin {
+            margin-right: 17px;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        // This is called with the results from from FB.getLoginStatus().
+        function statusChangeCallback(response) {
+            console.log('statusChangeCallback');
+            console.log(response);
+            // The response object is returned with a status field that lets the
+            // app know the current login status of the person.
+            // Full docs on the response object can be found in the documentation
+            // for FB.getLoginStatus().
+            if (response.status === 'connected') {
+                // Logged into your app and Facebook.
+                ListFriendRank();
+            }
+            else if (response.status === 'not_authorized') {
+                // The person is logged into Facebook, but not your app.
+                //document.getElementById('status').innerHTML = 'Please log ' + 'into this app.';
+            }
+            else {
+                // The person is not logged into Facebook, so we're not sure if
+                // they are logged into this app or not.
+                //document.getElementById('status').innerHTML = 'Please log ' + 'into Facebook.';
+            }
+        }
+        // This function is called when someone finishes with the Login
+        // Button.  See the onlogin handler attached to it in the sample
+        // code below.
+        function checkLoginState() {
+            FB.getLoginStatus(function (response) {
+                statusChangeCallback(response);
+            });
+        }
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '328408594206998'
+                , cookie: true, // enable cookies to allow the server to access
+                // the session
+                xfbml: true, // parse social plugins on this page
+                version: 'v2.8' // use graph api version 2.8
+            });
+            // Now that we've initialized the JavaScript SDK, we call
+            // FB.getLoginStatus().  This function gets the state of the
+            // person visiting this page and can return one of three states to
+            // the callback you provide.  They can be:
+            //
+            // 1. Logged into your app ('connected')
+            // 2. Logged into Facebook, but not your app ('not_authorized')
+            // 3. Not logged into Facebook and can't tell if they are logged into
+            //    your app or not.
+            //
+            // These three cases are handled in the callback function.
+            FB.getLoginStatus(function (response) {
+                statusChangeCallback(response);
+            });
+        };
+        // Load the SDK asynchronously
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+        // Here we run a very simple test of the Graph API after login is
+        // successful.  See statusChangeCallback() for when this call is made.
+        function testAPI() {
+            console.log('Welcome!  Fetching your information.... ');
+            FB.api('/me', function (response) {
+                console.log('Successful login for: ' + response.name);
+                document.getElementById('status').innerHTML = 'Thanks for logging in, ' + response.name + '!';
+            });
+        }
+    </script>
+    <!--
+  Below we include the Login Button social plugin. This button uses
+  the JavaScript SDK to present a graphical Login button that triggers
+  the FB.login() function when clicked.
+-->
+
+    <body style="overflow-y:scroll;">
+        <div class="container center">
+            <div class="panel panel-default box center">
+                <div class="panel-body center"> <img src="images/snake_logo.png" class="logo">
+                    <p> </p>
+                    <h1>手速大挑戰</h1>
+                    <p></p>
+                    <p style="color:white"> 目前挑戰人數8人</p>
+                    <p> </p>
+                    
+                    <p></p>
+                    <p><a href="hungrysnake.html" class="btn btn-lg btn-custom fullwidth"> 開始遊戲</a></p>
+                    
+                    <p></p>
+                    <h3 class="title">魯蛇排行榜</h3>
+                    <p></p>
+                    <p>
+                        <button class="btn btn-lg btn-info global">全球排名</button>
+                        <button class="btn btn-lg btn-success myfriends">好友排名</button>
+                    </p>
+                    <div id="global">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td><img src="http://graph.facebook.com/1215767681779523/picture" height="30px"></td>
+                                    <td><span class="label label-success">周威存</span></td>
+                                    <td><span class="label label-warning">2分44秒</span></td>
+                                    <td><span class="label label-danger">132</span></td>
+                                </tr>
+                                <tr>
+                                    <td><img src="http://graph.facebook.com/1122800411169407/picture" height="30px"></td>
+                                    <td><span class="label label-success">邱柏育</span></td>
+                                    <td><span class="label label-warning">2分20秒</span></td>
+                                    <td><span class="label label-danger">122</span></td>
+                                </tr>
+                                <tr>
+                                    <td><img src="http://graph.facebook.com/1248286491860127/picture" height="30px"></td>
+                                    <td><span class="label label-success">周威儒</span></td>
+                                   <td><span class="label label-warning">2分14秒</span></td>
+                                    <td><span class="label label-danger">99</span></td>
+                                </tr>
+                                <tr>
+                                    <td><img src="http://graph.facebook.com/1213333582056152/picture" height="30px"></td>
+                                    <td><span class="label label-success">派大派</span></td>
+                                  <td><span class="label label-warning">1分50秒</span></td>
+                                    <td><span class="label label-danger">87</span></td>
+                                </tr>
+                                <tr>
+                                    <td><img src="http://graph.facebook.com/1524632544218610/picture" height="30px"></td>
+                                    <td><span class="label label-success">宋正倫</span></td>
+                                    <td><span class="label label-warning">1分34秒</span></td>
+                                    <td><span class="label label-danger">46</span></td>
+                                </tr>
+                                <tr>
+                                    <td><img src="http://graph.facebook.com/10210609642467926/picture" height="30px"></td>
+                                    <td><span class="label label-success">黃小茜</span></td>
+                                    <td><span class="label label-warning">1分10秒</span></td>
+                                    <td><span class="label label-danger">25</span></td>
+                                </tr>
+                                <tr>
+                                    <td><img src="http://graph.facebook.com/879348788868747/picture" height="30px"></td>
+                                    <td><span class="label label-success">周君</span></td>
+                                    <td><span class="label label-warning">30秒</span></td>
+                                    <td><span class="label label-danger">10</span></td>
+                                </tr>
+                                <tr>
+                                    <td><img src="http://graph.facebook.com/1292076920864901/picture" height="30px"></td>
+                                    <td><span class="label label-success">周昊子</span></td>
+                                    <td><span class="label label-warning">3</span></td>
+                                    <td><span class="label label-danger">0</span></td>
+                                </tr>                            </tbody>
+                        </table>
+                    </div>
+                    <div id="myfriends" style="display: none;">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td><img src="http://graph.facebook.com/10210609642467926/picture" height="30px"></td>
+                                    <td><span class="label label-success">黃小茜</span></td>
+                                    <td><span class="label label-warning">1分10秒</span></td>
+                                    <td><span class="label label-danger">25</span></td>
+                                </tr>
+                                <tr>
+                                    <td><img src="http://graph.facebook.com/879348788868747/picture" height="30px"></td>
+                                    <td><span class="label label-success">周君</span></td>
+                                    <td><span class="label label-warning">30秒</span></td>
+                                    <td><span class="label label-danger">10</span></td>
+                                </tr>
+                                <tr>
+                                    <td><img src="http://graph.facebook.com/1292076920864901/picture" height="30px"></td>
+                                    <td><span class="label label-success">周昊子</span></td>
+                                    <td><span class="label label-warning">3</span></td>
+                                    <td><span class="label label-danger">0</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <fb:login-button scope="public_profile,email,user_location,user_friends,user_photos" onlogin="checkLoginState();"> </fb:login-button>
+        <div class="fb-like" data-share="true" data-width="450" data-show-faces="true"> </div>
+        <div id="status"> </div>
+        <div id="friend-list"></div>
+        <script type="text/javascript" src="js/jquery-3.1.1.js"></script>
+        <script src="src/bootstrap/js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+            $(function () {
+                $('#myfriends').hide();
+                $('.global').on('click', function () {
+                    $('#myfriends').hide();
+                    $('#global').show();
+                });
+                $('.myfriends').on('click', function () {
+                    $('#myfriends').show();
+                    $('#global').hide();
+                });
+            });
+        </script>
+    </body>
+
+</html>

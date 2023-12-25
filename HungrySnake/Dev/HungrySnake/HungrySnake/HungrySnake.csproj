@@ -1,0 +1,317 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1EADCFFC-095E-4C4E-B497-A59CCE7A95D2}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HungrySnake</RootNamespace>
+    <AssemblyName>HungrySnake</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Admin.aspx" />
+    <Content Include="css\animate.css" />
+    <Content Include="css\bootstrap.min.css" />
+    <Content Include="css\dashboard.css" />
+    <Content Include="css\datepicker.css" />
+    <Content Include="css\font\IDYuanExtra.svg" />
+    <Content Include="css\i18n\datepicker-zh-TW.js" />
+    <Content Include="css\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="css\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="css\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="css\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="css\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="css\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="css\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="css\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="css\images\ui-icons_222222_256x240.png" />
+    <Content Include="css\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="css\images\ui-icons_444444_256x240.png" />
+    <Content Include="css\images\ui-icons_454545_256x240.png" />
+    <Content Include="css\images\ui-icons_555555_256x240.png" />
+    <Content Include="css\images\ui-icons_777620_256x240.png" />
+    <Content Include="css\images\ui-icons_777777_256x240.png" />
+    <Content Include="css\images\ui-icons_888888_256x240.png" />
+    <Content Include="css\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="css\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="css\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="css\jquery-ui.min.css" />
+    <Content Include="css\jquery-ui.structure.min.css" />
+    <Content Include="css\jquery-ui.theme.min.css" />
+    <Content Include="css\signin.css" />
+    <Content Include="css\snake.css" />
+    <Content Include="GetSession.aspx" />
+    <Content Include="Global.asax" />
+    <Content Include="hungrysnake.html" />
+    <Content Include="images\1.png" />
+    <Content Include="images\2.png" />
+    <Content Include="images\3.png" />
+    <Content Include="images\attack_item_1.gif" />
+    <Content Include="images\attack_item_1.png" />
+    <Content Include="images\attack_item_2.gif" />
+    <Content Include="images\attack_item_2.png" />
+    <Content Include="images\background.jpg" />
+    <Content Include="images\bg.jpg" />
+    <Content Include="images\btn_intro.png" />
+    <Content Include="images\btn_intro_start.png" />
+    <Content Include="images\clock_icon.png" />
+    <Content Include="images\close_btn.png" />
+    <Content Include="images\download.png" />
+    <Content Include="images\eat_icon.png" />
+    <Content Include="images\facebook_login.png" />
+    <Content Include="images\fallingsky.png" />
+    <Content Include="images\favicon.png" />
+    <Content Include="images\fb_share.png" />
+    <Content Include="images\food_1.png" />
+    <Content Include="images\food_2.png" />
+    <Content Include="images\food_3.png" />
+    <Content Include="images\food_4.png" />
+    <Content Include="images\food_5.png" />
+    <Content Include="images\friend_rank.png" />
+    <Content Include="images\friend_rank_hover.png" />
+    <Content Include="images\gameover.png" />
+    <Content Include="images\global_rank_button.png" />
+    <Content Include="images\global_rank_button_hover.png" />
+    <Content Include="images\go.png" />
+    <Content Include="images\header-bg.png" />
+    <Content Include="images\index_bg.jpg" />
+    <Content Include="images\infinity_bg.jpg" />
+    <Content Include="images\intro_page.png" />
+    <Content Include="images\invite_friend.png" />
+    <Content Include="images\item-disappear.png" />
+    <Content Include="images\level.png" />
+    <Content Include="images\lvup.png" />
+    <Content Include="images\new_global_record_bg.png" />
+    <Content Include="images\new_record.png" />
+    <Content Include="images\normal_record.png" />
+    <Content Include="images\rank.png" />
+    <Content Include="images\rank_bg.png" />
+    <Content Include="images\restart.png" />
+    <Content Include="images\result-bg.jpg" />
+    <Content Include="images\share_cover.jpg" />
+    <Content Include="images\snake_1.png" />
+    <Content Include="images\snake_1_die.png" />
+    <Content Include="images\snake_2.png" />
+    <Content Include="images\snake_2_die.png" />
+    <Content Include="images\snake_3.png" />
+    <Content Include="images\snake_3_die.png" />
+    <Content Include="images\snake_4.png" />
+    <Content Include="images\snake_4_die.png" />
+    <Content Include="images\snake_5.png" />
+    <Content Include="images\snake_5_die.png" />
+    <Content Include="images\snake_logo.png" />
+    <Content Include="images\snake_share.jpg" />
+    <Content Include="images\start.png" />
+    <Content Include="index.html" />
+    <Content Include="js\bootstrap.min.js" />
+    <Content Include="js\highcharts.js" />
+    <Content Include="js\ie10-viewport-bug-workaround.js" />
+    <Content Include="js\jquery-1.4.2.min.js" />
+    <Content Include="js\jquery-3.1.1.js" />
+    <Content Include="js\jquery-3.1.1.min.js" />
+    <Content Include="js\jquery-ui.min.css" />
+    <Content Include="js\jquery-ui.min.js" />
+    <Content Include="js\jquery-ui.structure.min.css" />
+    <Content Include="js\jquery-ui.theme.min.css" />
+    <Content Include="js\jquery.preload.min.js" />
+    <Content Include="js\jquery.ui.touch-punch.min.js" />
+    <Content Include="private.html" />
+    <Content Include="sound\bgm.mp3" />
+    <Content Include="sound\die.mp3" />
+    <Content Include="sound\eat.mp3" />
+    <Content Include="sound\start.mp3" />
+    <Content Include="src\bootstrap\css\bootstrap-theme.css" />
+    <Content Include="src\bootstrap\css\bootstrap-theme.min.css" />
+    <Content Include="src\bootstrap\css\bootstrap.css" />
+    <Content Include="src\bootstrap\css\bootstrap.min.css" />
+    <Content Include="src\bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="src\bootstrap\js\bootstrap.js" />
+    <Content Include="src\bootstrap\js\bootstrap.min.js" />
+    <Content Include="src\bootstrap\js\npm.js" />
+    <Content Include="src\fancybox\source\blank.gif" />
+    <Content Include="src\fancybox\source\fancybox_loading%402x.gif" />
+    <Content Include="src\fancybox\source\fancybox_loading.gif" />
+    <Content Include="src\fancybox\source\fancybox_overlay.png" />
+    <Content Include="src\fancybox\source\fancybox_sprite%402x.png" />
+    <Content Include="src\fancybox\source\fancybox_sprite.png" />
+    <Content Include="src\fancybox\source\helpers\fancybox_buttons.png" />
+    <Content Include="src\fancybox\source\helpers\jquery.fancybox-buttons.css" />
+    <Content Include="src\fancybox\source\helpers\jquery.fancybox-buttons.js" />
+    <Content Include="src\fancybox\source\helpers\jquery.fancybox-media.js" />
+    <Content Include="src\fancybox\source\helpers\jquery.fancybox-thumbs.css" />
+    <Content Include="src\fancybox\source\helpers\jquery.fancybox-thumbs.js" />
+    <Content Include="src\fancybox\source\jquery.fancybox.css" />
+    <Content Include="src\fancybox\source\jquery.fancybox.js" />
+    <Content Include="src\fancybox\source\jquery.fancybox.pack.js" />
+    <Content Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Admin.aspx.cs">
+      <DependentUpon>Admin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin.aspx.designer.cs">
+      <DependentUpon>Admin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\GameController.cs" />
+    <Compile Include="Controllers\RankController.cs" />
+    <Compile Include="Controllers\ShareController.cs" />
+    <Compile Include="GetSession.aspx.cs">
+      <DependentUpon>GetSession.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GetSession.aspx.designer.cs">
+      <DependentUpon>GetSession.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\DbHelper.cs" />
+    <Compile Include="Helpers\HSDBHelper.cs" />
+    <Compile Include="Helpers\WaterMarkHelper.cs" />
+    <Compile Include="Models\RankModel.cs" />
+    <Compile Include="Models\ResponseModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+    <Content Include="src\bootstrap\css\bootstrap-theme.css.map" />
+    <Content Include="src\bootstrap\css\bootstrap-theme.min.css.map" />
+    <Content Include="src\bootstrap\css\bootstrap.css.map" />
+    <Content Include="src\bootstrap\css\bootstrap.min.css.map" />
+    <Content Include="src\bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="src\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="src\bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="src\bootstrap\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="css\msjh.ttc" />
+    <Content Include="css\msjhbd.ttc" />
+    <Content Include="css\msjhl.ttc" />
+    <Content Include="css\font\IDYuanExtra.eot" />
+    <Content Include="css\font\IDYuanExtra.ttf" />
+    <Content Include="css\font\IDYuanExtra.woff" />
+    <Content Include="js\snake_v1.1.js" />
+    <None Include="Properties\PublishProfiles\LocalPublish.pubxml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="share\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>51034</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:51034/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

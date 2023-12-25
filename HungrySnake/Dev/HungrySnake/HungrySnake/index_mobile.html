@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<link rel="icon" href="images/favicon.png">
+	<title>2016聖誕企劃</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="src/bootstrap/css/bootstrap.min.css" />
+	<style type="text/css">
+		body:before {
+			content: "";
+			display: block;
+			position: fixed;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			z-index: -10;
+			background: url(../images/bg.jpg) repeat center center;
+			-webkit-background-size: cover;
+			-moz-background-size: cover;
+			-o-background-size: cover;
+			background-size: cover;
+			font-size: 20px;
+		}
+		
+		.card_content {
+			display: none;
+			font-size: 20px;
+			height: 300px;
+			background-color: #FFF;
+		}
+		
+		.container {
+			width: 100%
+		}
+		
+		.row {
+			width: 100%
+		}
+		
+		.slider {
+			border: 3px solid #000;
+		}
+	</style>
+</head>
+
+<body style="overflow-y:scroll;">
+	<div class="container center">
+		<div class="card_content" data-num="1">嘿！我想玩一個遊戲，你只要解開這些謎題，我就會讓妳知道我的目的</div>
+		<div class="card_content" data-num="2">
+			<div class="form-group"> 妳的名字是？
+				<input type="text" id="name" class="form-control" placeholder="Text input">
+				<label id="lbl_name"></label>
+				<button type="button" onclick="setname();" id="btn0" class="btn btn-default">送出</button>
+			</div>
+		</div>
+		<div class="card_content" data-num="3">妳和老公成功逃出密室的次數是？
+			<div class="form-group"> 答案是？
+				<input type="text" id="input1" class="form-control" placeholder="Text input">
+				<label id="lbl_name"></label>
+				<button type="button" onclick="checkinput(1);" id="btn1" class="btn btn-default">送出</button>
+			</div>
+		</div>
+		<div class="card_content" data-num="4">從老婆的小空間找出第一道線索？
+			<div class="form-group"> 答案是？
+				<input type="text" id="input2" class="form-control" placeholder="Text input">
+				<label id="lbl_name"></label>
+				<button type="button" onclick="checkinput(2);" id="btn2" class="btn btn-default">送出</button>
+			</div>
+		</div>
+		<div class="card_content" data-num="5">轟隆轟隆大怪獸所凝視的前方會有第二個線索
+			<div class="form-group"> 答案是？
+				<input type="text" id="input3" class="form-control" placeholder="Text input">
+				<label id="lbl_name"></label>
+				<button type="button" onclick="checkinput(3);" id="btn3" class="btn btn-default">送出</button>
+			</div>
+		</div>
+		<div class="card_content" data-num="6">請玩老公寫的小遊戲，分數要剛好在停在77。
+			<a href="http://snake-nm.efuntw.com/index.html" target="_blank">快去玩</a>
+			<input type="text" id="input5" class="form-control" placeholder="Text input">
+			<button type="button" onclick="checkinput(4);" id="btn4" class="btn btn-default">完成</button>
+		</div>
+		<div class="card_content" data-num="7">你已經很接近謎題的真相了，但要得到它妳還需要滿足最後一個條件，妳需要老公的力量，請給老公一個大大的擁抱加親親，如此一來老公就會幫妳完成最後這道謎題！！</div>
+		<div class="card_content" data-num="8">請輸入最後的密碼
+			<div class="form-group"> 答案是？
+				<input type="text" id="input4" class="form-control" placeholder="Text input">
+				<label id="lbl_name"></label>
+				<button type="button" onclick="checkinput(5);" id="btn5" class="btn btn-default">送出</button>
+			</div>
+		</div>
+		<div class="card_content" data-num="9">去瞧瞧床邊的車子裡看看吧!!!</div>
+		<div class="row" style="height:100px">
+			<button class="col-xs-1 btn-primary" onclick="show(1,$(this))">1</button>
+			<button class="col-xs-1" onclick="show(2,$(this))">2</button>
+			<button class="col-xs-1" onclick="show(3,$(this))">3</button>
+			<button class="col-xs-1" onclick="show(4,$(this))">4</button>
+			<button class="col-xs-1" onclick="show(5,$(this))">5</button>
+			<button class="col-xs-1" onclick="show(6,$(this))">6</button>
+			<button class="col-xs-1" onclick="show(7,$(this))">7</button>
+			<button class="col-xs-1" onclick="show(8,$(this))">8</button>
+			<button class="col-xs-1" onclick="show(9,$(this))">9</button>
+			<button class="col-xs-1" onclick="">-</button>
+			<button class="col-xs-1" onclick="">-</button>
+			<button class="col-xs-1" onclick="">-</button>
+		</div>
+	</div>
+	<!--
+	嘿！我想玩一個遊戲，你只要解開這些謎題，我就會讓妳知道我的目的
+妳的名字是？
+
+從老婆的小空間找出第一道線索
+轟隆轟隆大怪獸所凝視的前方會有第二個線索
+請玩老公寫的小遊戲，分數要剛好在停在77。
+你已經很接近謎題的真相了，但要得到它妳還需要滿足最後一個條件，妳需要老公的力量，請給老公一個大大的擁抱加親親，如此一來老公就會幫妳完成最後這道謎題！！
+-->
+	<script type="text/javascript" src="js/jquery-3.1.1.js"></script>
+	<script src="src/bootstrap/js/bootstrap.min.js"></script>
+	<script>
+		var index_card = 1;
+		var max_card = 2;
+				$(document).ready(function () {
+			show(1,$(".row").children("button").first());
+		});
+		function setname() {
+			if ($("#name").val() == "") {
+				alert("最少打個名字嘛");
+				return;
+			}
+			$("#name").hide();
+			$("#lbl_name").parent().html("嗨 " + $("#name").val() + "我們來玩個遊戲吧").show();
+			$("#btn0").hide();
+			max_card++;
+		}
+
+		function show(num,target) {
+			if (num <= max_card) {
+				console.log($("#card_content [data-num=" + num + "]"));
+				$(".card_content").hide();
+				$(".card_content[data-num='" + num + "']").show();
+				$("button").removeClass("btn-primary");
+				$(target).addClass("btn-primary");
+			}else{
+				alert("別想偷看啊啊啊");
+			}
+		}
+
+		function checkinput(num) {
+			switch (num) {
+			case 1:
+				if ($("#input1").val() != 1) {
+					alert('錯了!!!!');
+				}
+				else {
+					max_card++;
+					$("#btn1").hide().parent().append("PASS!");
+				}
+				break;
+			case 2:
+				if ($("#input2").val() != "2") {
+					alert('錯了!!!!');
+				}
+				else {
+					max_card++;
+					$("#btn2").hide().parent().append("PASS!");
+				}
+				break;
+			case 3:
+				if ($("#input3").val() != "8") {
+					alert('錯了!!!!');
+				}
+				else {
+					max_card++;
+					$("#btn3").hide().parent().append("PASS!");
+				}
+				break;
+			case 4:
+				if ($("#input5").val() != "999") {
+					alert('不要偷雞啊啊!!!!');
+				}
+				else {
+					alert('哼哼 算你利害!!!!');
+					max_card++;
+					max_card++;
+					$("#btn4").hide().parent().append("PASS!");
+				}
+				
+				break;
+			case 5:
+				if ($("#input4").val() != "0707") {
+					alert('錯了!!!!');
+				}
+				else {
+					max_card++;
+					$("#btn5").hide().parent().append("PASS!");
+				}
+				break;
+			default:
+				break;
+			}
+		}
+		
+	</script>
+</body>
+
+</html>

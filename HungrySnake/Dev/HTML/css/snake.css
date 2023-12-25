@@ -1,0 +1,202 @@
+#snake {
+    width: 30px;
+    height: 60px;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+}
+
+.drop-item, .drop-item-remove {
+    position: fixed;
+    width: 27px;
+    height: 27px;
+    margin: 0px;
+    padding: 0px;
+}
+    /*水平横穿*/
+    #drop-item.vertical {
+        width: 50px;
+        height: 300px;
+        top: 0px;
+        left: 70px;
+    }
+    /*垂直横穿样式*/
+    #drop-item b {
+        color: red;
+    }
+
+    #drop-item div {
+        font-size: 12px;
+        color: green;
+    }
+
+body {
+    font-family: Microsoft JhengHei;
+    background-image:url('../images/bg.png');
+    background-repeat: repeat;
+    background-attachment: fixed;
+    background-position: center top;
+    background-size: 100%;
+    background-color: #d7f7f6;
+    overflow: hidden;
+}
+h1 {
+	color:#FF3333;
+}
+.countdownNum {
+    font-size: 40pt;
+    z-index: 1;
+    position: center;
+}
+.btn-custom {
+  background-color: hsl(207, 100%, 55%) !important;
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#eff8ff", endColorstr="#1997ff");
+  background-image: -khtml-gradient(linear, left top, left bottom, from(#eff8ff), to(#1997ff));
+  background-image: -moz-linear-gradient(top, #eff8ff, #1997ff);
+  background-image: -ms-linear-gradient(top, #eff8ff, #1997ff);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #eff8ff), color-stop(100%, #1997ff));
+  background-image: -webkit-linear-gradient(top, #eff8ff, #1997ff);
+  background-image: -o-linear-gradient(top, #eff8ff, #1997ff);
+  background-image: linear-gradient(#eff8ff, #1997ff);
+  border-color: #1997ff #1997ff hsl(207, 100%, 44.5%);
+  color: #333 !important;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.69);
+  -webkit-font-smoothing: antialiased;
+}
+.logo {
+	width : 80%;
+}
+.panel {
+    background-color: transparent;
+}
+
+.panel-heading {
+    height: 60px;
+    padding: 5px 0px;
+    /*color:white;*/    
+}
+.panel-heading span{
+    /*color:white;*/
+}
+
+.title {
+    font-size: 15px;
+    color:white;
+}
+
+.panel-body, .panel-footer {
+    position: relative;
+    overflow: hidden;
+    padding: 0px;
+}
+
+.startWindow {
+    border: 2px solid #FF0000;
+    border-radius: 20px;
+    width: 100%;
+    position: absolute;
+    text-align: center;
+    background-color: #FFFFFF;
+    padding: 10px;
+    margin: 10px;
+    z-index: 99;
+}
+
+.showMsg {
+    color: #FFFF33;
+    font-family: Microsoft JhengHei, Cooper, Bauhaus 93, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    width: 100%;
+    position: absolute;
+    text-align: center;
+    opacity: 0.8;
+}
+
+#sgowMsg {
+    display: none;
+}
+
+.snake{
+    padding :0px;
+    margin:0px;
+    width:20px;
+    height:120px;
+}
+.key-left {
+	background-image: url('../images/key_left.png');
+}
+.key-right {
+	background-image: url('../images/key_right.png');
+}
+.key-left.push {
+	background-image: url('../images/key_left_d.png');
+}
+.key-right.push {
+	background-image: url('../images/key_right_d.png');
+}
+.arrow {
+	position:relative;
+	margin: 10px;
+	float: right;
+	bottom: 0px;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+.arrow-left {
+	background-image: url('/images/arrow_blue_left.png');
+}
+.arrow-left.red {
+	background-image: url('/images/arrow_red_left.png');
+}
+.arrow-left.red.clear {
+	background-image: url('/images/arrow_purple_left.png');
+}
+.arrow-left.clear {
+	background-image: url('/images/arrow_green_left.png');
+}
+.arrow-left.wrong {
+	background-image: url('/images/arrow_gray_left.png');
+}
+.arrow-right {
+	background-image: url('/images/arrow_blue_right.png');
+}
+.arrow-right.red {
+	background-image: url('/images/arrow_red_right.png');
+}
+.arrow-right.red.clear {
+	background-image: url('/images/arrow_purple_right.png');
+}
+.arrow-right.clear {
+	background-image: url('/images/arrow_green_right.png');
+}
+.arrow-right.wrong {
+	background-image: url('/images/arrow_gray_right.png');
+}
+.row-play {
+	line-height: 60px;
+}
+.gamePad {
+	margin: 5px;
+	float: left;
+	bottom: 0px;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: contain;
+}
+.container {
+	padding: 0px;
+	margin: 0px;	
+}
+
+.box {
+	max-width: 430px;
+	text-align:center;
+}
+
+.center {
+	margin:0px auto;
+}
+
+.fullwidth {
+	width: 95%;
+}

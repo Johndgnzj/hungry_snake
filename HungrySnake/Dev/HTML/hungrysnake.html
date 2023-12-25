@@ -1,0 +1,488 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>魯蛇逛夜市</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen" />
+    <link href="css/animate.css" rel="stylesheet" media="screen" />
+    <link href="css/snake.css?ver=1.0" rel="stylesheet" media="screen" /> </head>
+
+<body>
+    <div class="countdownNum" id="countdownNum"></div>
+    <div class="container center">
+        <div class="panel panel-default box center">
+            <div class="panel-heading" style="height:40px">持久度：<span id="gametime">0</span>秒 / LV <span id="level"></span> / 分數 <span id="score"></span></div>
+            <div class="panel-body center">
+                <div class="startWindow" style="width: 353px;">
+                    <div id="txt"> <img src="images/snake_logo.png" width="120" />
+                        <h3>魯蛇逛夜市</h3>
+                        <h4>吃遍各式小吃，用盡吃奶的力氣閃避來自前方的的炸彈和障礙物吧!!!</h4> </div>
+                    <button id="gameStart" class="btn btn-lx btn-primary">開始遊戲</button>
+                </div>
+                <div class="showMsg" style="font-size: 146px;"> <span id="showMsg"></span> </div>
+                <!--<div id="lightBall" class="lightBall"><img src="images/lightball_0.png" width="30" height="30" /></div>-->
+                <div class="snake" id="snake"><img src="images/snake_1.png" width="30" /></div>
+            </div>
+            <div class="panel-footer">
+                <div class="gamePad key-left" arrow="left" style="width: 97px; height: 97px;"></div>
+                <div class="gamePad" style="width: 97px; height: 97px;"></div>
+                <div class="gamePad" style="width: 97px; height: 97px;"></div>
+                <div class="gamePad key-right" arrow="right" style="width: 97px; height: 97px;"></div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="js/jquery-3.1.1.js"></script>
+    <script type="text/javascript" src="js/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="js/jquery.ui.touch-punch.min.js"></script>
+    <script type="text/javascript">
+        var images = new Array(); //預載圖片
+        var attack_item = ['images/attack_item_1.png', 'images/attack_item_2.png'];
+        var light_ball = ['images/lightball_1.png', 'images/lightball_2.png', 'images/lightball_3.png', 'images/lightball_4.png', 'images/lightball_5.png'];
+        var arrowSize = 0; //箭頭邊長
+        var movingStatus = false;
+        var snakeResize = true; // 是否允許魯蛇改變大小
+        var AllowEffectSound = true;
+        var screenWidth = 0;
+        var yCount = 0; // 螢幕高度可容納多少箭頭
+        var arrowCount = 0; //目前產生了多少箭頭
+        var startGameCount = 3; //開始遊戲倒數
+        var borderLeft = 0;
+        var borderTop = 0;
+        var borderRight = 0;
+        var borderBottom = 0; // 遊戲框位置-下
+        var aliveTime = 0; // 目前遊戲時間
+        var gameTimer; // 遊戲主計時器
+        var attactTimer; // 攻擊計時器
+        var DropItemSpeed = 5000; // 光球掉落速度。
+        var DropItemMinSpeed = 500; // 光球最快掉落速度。
+        var DropItemSpeedUpPerLevel = 500; // 光球掉落速度每級加快時間。
+        var snakeMovingSpeed = 1000; // 魯蛇透過左右按鍵或方向鍵移動的速度
+        var gameLevel = 1; // 遊戲等級
+        var snakeLevel = 1; // 魯蛇尺吋等級
+        var ItemOfincreateSnakeRequire = 10; // 魯蛇長大所需食物數量
+        var LevelUpSecond = 10; // 升級速度，直接影響遊戲難度
+        var MaxAttackLevel = 99; // 最高攻擊等級
+        var MaxSnakeLevel = 3; // 最高魯蛇等級
+        var MaxLightBallNum = 5; // 最高光球(小吃)數量上限
+        var score = 0; //目前分數
+        var defaultSnakeHeight = 120; // 初級魯蛇高度
+        var defaultAttactTime = 2000; // 預設攻擊時間(物件掉落)
+        var defaultAttactItemNum = 2; // 預設攻擊個數
+        var status = 0; // 目前狀態：0=準備；1=開始；2=遊戲結束
+        var gameMode = 0; // 攻擊模式(光球掉落)
+        var drop_item_width = 25;
+        var die = new Audio('sound/die.mp3');
+        var chi = new Audio('sound/chi.mp3');
+        $(function () {
+            //$(window).scroll(checkOverlay).trigger('scroll');
+            //checkOverlay();
+            //CreateLightBall();
+            //TestStep();
+            preload("images/key_left.png", "images/key_right.png", "images/key_left_d.png", "images/key_right_d.png", "images/1.png", "images/2.png", "images/3.png", "images/lvup.png", "images/lightball_1.png", "images/lightball_2.png", "images/lightball_3.png", "images/lightball_4.png", "images/lightball_5.png", "images/snake_1.png", "images/snake_2.png", "images/snake_3.png", "images/attack_item_1.png", "images/attack_item_2.png");
+            $(document).on('keydown', function (e) {
+                //console.log(e.key);
+                switch (e.key) {
+                case 'ArrowLeft':
+                case 'Left':
+                    MoveSnake(-1);
+                    break;
+                case 'ArrowRight':
+                case 'Right':
+                    MoveSnake(1);
+                }
+            });
+            $(document).on('keyup', function (e) {
+                //console.log(e.key);
+                switch (e.key) {
+                case 'ArrowLeft':
+                case 'Left':
+                case 'ArrowRight':
+                case 'Right':
+                    MoveSnake(0);
+                }
+            });
+            $("#gameStart").click(function () {
+                CountDown();
+                $('.startWindow').hide();
+            });
+            //綁定輸入按鈕功能
+            $('.gamePad').on('touchstart', function () {
+                arrow = $(this).attr('arrow');
+                userKeyIn(arrow);
+            }).on('touchend', function () {
+                arrow = $(this).attr('arrow');
+                userKeyUp(arrow);
+            });
+            //螢幕自適應大小
+            $(window).on('resize', function () {
+                onReSizePage();
+            });
+            onReSizePage();
+            InitGame();
+        });
+
+        function InitGame() {
+            startGameCount = 3;
+            gameLevel = 1;
+            snakeLevel = 1;
+            status = 0;
+            score = 0;
+            DropItemSpeed = 5000;
+            $("#snake").css('left', borderLeft + (screenWidth / 2));
+            $("#level").html(gameLevel);
+            $("#score").html(score);
+            $("#gametime").html(0);
+            die = new Audio('sound/die.mp3');
+            chi = new Audio('sound/chi.mp3');
+            SetSnakeSize(snakeLevel);
+            DragSetup(0);
+            $(".drop-item").remove();
+            $('.startWindow').show();
+        }
+        //預載圖片
+        function preload() {
+            for (i = 0; i < preload.arguments.length; i++) {
+                images[i] = new Image()
+                images[i].src = preload.arguments[i]
+            }
+        }
+        // 判斷物件是否重疊
+        function isOver(o1, o2) {
+            o1 = $(o1);
+            o2 = $(o2);
+            var p1 = o1.offset()
+                , p2 = o2.offset();
+            p1.right = p1.left + o1.width();
+            p1.bottom = p1.top + o1.height();
+            p2.right = p2.left + o2.width();
+            p2.bottom = p2.top + o2.height();
+            //判断4个顶点是否在另外一个对象的区域内
+            var rst =
+                //o2作为参考对象
+                ((p1.left >= p2.left && p1.left <= p2.right && p1.top >= p2.top && p1.top <= p2.bottom)) || //左上角
+                ((p1.right >= p2.left && p1.right <= p2.right && p1.top >= p2.top && p1.top <= p2.bottom)) || //右上角
+                ((p1.left >= p2.left && p1.left <= p2.right && p1.bottom >= p2.top && p1.bottom <= p2.bottom)) || //左下角
+                ((p1.right >= p2.left && p1.right <= p2.right && p1.bottom >= p2.top && p1.bottom <= p2.bottom)) || //右下角
+                //o1作为参考对象
+                ((p2.left >= p1.left && p2.left <= p1.right && p2.top >= p1.top && p2.top <= p1.bottom)) || //左上角
+                ((p2.right >= p1.left && p2.right <= p1.right && p2.top >= p1.top && p2.top <= p1.bottom)) || //右上角
+                ((p2.left >= p1.left && p2.left <= p1.right && p2.bottom >= p1.top && p2.bottom <= p1.bottom)) || //左下角
+                ((p2.right >= p1.left && p2.right <= p1.right && p2.bottom >= p1.top && p2.bottom <= p1.bottom)) //右下角
+            ;
+            //上面的判断失败，则为十字架关系，内部一部分包含在另外一个对象中，但是顶点相互不在对方内部
+            if (!rst) rst =
+                //o2作为参考
+                (p1.left < p2.left && p1.right > p2.right && p1.top > p2.top && p1.bottom < p2.bottom) || //o1水平横穿o2
+                (p1.left > p2.left && p1.right < p2.right && p1.top < p2.top && p1.bottom > p2.bottom) || //o1垂直横穿o2
+                //o1作为参考
+                (p2.left < p1.left && p2.right > p1.right && p2.top > p1.top && p2.bottom < p1.bottom) || //o2水平横穿o1
+                (p2.left > p1.left && p2.right < p1.right && p2.top < p1.top && p2.bottom > p1.bottom) //o2垂直横穿o1
+            ;
+            return rst;
+        }
+        // 判斷蛇有沒有被光球碰到
+        function checkOverlay(item, item_type) {
+            var snake = $('#snake');
+            if ($(item).hasClass('drop-item')) {
+                if (isOver(item, snake)) {
+                    if (item_type == 'attack') {
+                        console.log(new Date + '--碰到光球了');
+                        status = 2;
+                        $(item).clearQueue().stop();
+                        clearInterval(gameTimer);
+                        clearTimeout(attactTimer);
+                        GameOver();
+                    }
+                    else {
+                        AddScore();
+                        $(item).removeClass('drop-item').addClass('drop-item-remove').clearQueue().fadeOut('slow');
+                    }
+                }
+            }
+            //lightBall.find('div').html(rst);
+        }
+        // 到數開始
+        function CountDown() {
+            if (startGameCount > 0) {
+                showMsg(startGameCount);
+                startGameCount--;
+                setTimeout(function () {
+                    CountDown()
+                }, 1000);
+                return;
+            }
+            status = 1;
+            gameTimer = setInterval(countAlifeTime, 1000);
+            SetAttactMode();
+        }
+        // 顯示訊息
+        function showMsg(msg) {
+            if (msg > 0 && msg < 4) {
+                msg = '<img src="images/' + msg + '.png" style="width:90%;">';
+            }
+            if (msg == '升級!') {
+                msg = '<img src="images/lvup.png" style="width:90%;">';
+            }
+            //$('#showMsg').html(msg).addClass('bounceIn animated').show().queue(function (next) {
+            //    $(this).removeClass('bounceIn animated webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend');
+            //    next();
+            //}).hide();
+            $('#showMsg').html(msg).show().addClass('bounceIn animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+                $(this).removeClass('bounceIn animated webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend').hide();
+            });
+        }
+        // 產生光球
+        function CreateLightBall() {
+            if (status == 1) {
+                console.log("Drop Light ball,Speed:" + DropItemSpeed);
+                var showUpPosition_Left = getRandomInt(borderLeft, borderRight - drop_item_width);
+                var item_idx = getRandomInt(1, light_ball.length);
+                var lightBall = $('<div id="lightBall" class="drop-item"><img src="' + light_ball[item_idx - 1] + '" width="' + drop_item_width + '" height="' + drop_item_width + '" /></div>');
+                $(lightBall).appendTo($('.panel-body'));
+                $(lightBall).css({
+                    'left': showUpPosition_Left + 'px'
+                    , 'top': borderTop + 'px'
+                }).animate({
+                    top: '+=' + borderBottom
+                }, {
+                    duration: DropItemSpeed
+                    , step: function (now, fx) {
+                        var n = parseInt(now);
+                        $(this).css("top", n);
+                        if (n >= $("#snake").position().top - $(this).height() - 20) checkOverlay($(this), 'lightball');
+                    }
+                }).queue(function (next) {
+                    $(this).remove();
+                    next();
+                });
+            }
+        }
+        // 產生攻擊掉落物
+        function CreateAttack() {
+            if (status == 1) {
+                console.log("Drop attack item, Speed:" + DropItemSpeed);
+                var showUpPosition_Left = getRandomInt(borderLeft, borderRight - drop_item_width);
+                var item_idx = getRandomInt(1, attack_item.length);
+                var drop_item = $('<div id="attack" class="drop-item"><img src="' + attack_item[item_idx - 1] + '" width="' + drop_item_width + '" height="' + drop_item_width + '" /></div>');
+                $(drop_item).appendTo($('.panel-body'));
+                $(drop_item).css({
+                    'left': showUpPosition_Left + 'px'
+                    , 'top': borderTop + 'px'
+                }).animate({
+                    top: '+=' + borderBottom
+                }, {
+                    duration: DropItemSpeed
+                    , step: function (now, fx) {
+                        var n = parseInt(now);
+                        $(this).css("top", n);
+                        if (n >= $("#snake").position().top - $(this).height() - 20) checkOverlay($(this), 'attack');
+                    }
+                }).queue(function (next) {
+                    //$(this).css('top', '0px');
+                    $(this).remove();
+                    next();
+                });
+            }
+        }
+        // 取得亂數
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+        // 累加秒數，判斷升級
+        function countAlifeTime() {
+            aliveTime += 1;
+            if (aliveTime % LevelUpSecond == 0) {
+                // Level Up
+                console.log('Level Up:' + gameLevel + ', Attack Item:' + (defaultAttactItemNum + Math.floor(gameLevel / 2)));
+                DropItemSpeed = ((DropItemSpeed - DropItemSpeedUpPerLevel) >= DropItemMinSpeed ? (DropItemSpeed - DropItemSpeedUpPerLevel) : DropItemMinSpeed);
+                console.log('Drop item Speed Up to:' + DropItemSpeed);
+                if ((gameLevel + 1) <= MaxAttackLevel) {
+                    console.log('Game Level Up')
+                    gameLevel = gameLevel + 1;
+                    $("#level").html(gameLevel);
+                }
+                else {
+                    $("#level").html("MAX Level");
+                }
+            }
+            $("#gametime").html(aliveTime);
+            $("#level").html(gameLevel);
+        }
+        // 設定攻擊模式
+        function SetAttactMode() {
+            switch (gameMode) {
+            case 1:
+                break;
+            default:
+                // 光球
+                var ballNum = getRandomInt(1, MaxLightBallNum);
+                var nextAttactTime = defaultAttactTime - (gameLevel * 10);
+                for (var i = 0; i < ballNum; i++) {
+                    var delayAttackTime = getRandomInt(0, nextAttactTime);
+                    var startAttact = setTimeout(CreateLightBall, delayAttackTime);
+                }
+                // 攻擊 
+                var attackNum = getRandomInt(0, Math.floor(gameLevel / 2));
+                nextAttactTime = defaultAttactTime - (gameLevel * 10);
+                for (var i = 0; i < (defaultAttactItemNum + attackNum); i++) {
+                    var delayAttackTime = getRandomInt(0, nextAttactTime);
+                    var startAttact = setTimeout(CreateAttack, delayAttackTime);
+                }
+                attactTimer = setTimeout(SetAttactMode, nextAttactTime);
+                break;
+            }
+        }
+        // 吃到光球，增加分數
+        function AddScore() {
+            PlayEffectSound(chi);
+            score++;
+            console.log('Add Score(' + score + ')');
+            $("#score").html(score);
+            if (score % ItemOfincreateSnakeRequire == 0 && snakeLevel < MaxSnakeLevel) {
+                snakeLevel++;
+                SetSnakeSize(snakeLevel);
+                showMsg('升級!');
+            }
+        }
+        // 移動蛇蛇
+        function MoveSnake(direction) {
+            if (direction == 0) {
+                movingStatus = false;
+                console.log('Stop snake movment');
+                $('#snake').clearQueue().stop();
+            }
+            else if (!movingStatus) {
+                var postion = $('#snake').position();
+                if (direction > 0) {
+                    // move right
+                    movingStatus = true;
+                    var distance = borderRight - postion.left - $('#snake').width();
+                    console.log('Moving snake from ' + postion.left + ' to ' + borderRight);
+                    $('#snake').animate({
+                        left: '+=' + distance
+                    }, {
+                        duration: snakeMovingSpeed
+                        , step: function (now, fx) {
+                            var n = parseInt(now);
+                            $(this).css("left", n);
+                        }
+                    });
+                }
+                else if (direction < 0) {
+                    movingStatus = true;
+                    var distance = postion.left - borderLeft;
+                    console.log('Moving snake from ' + postion.left + ' to ' + borderLeft);
+                    $('#snake').animate({
+                        left: '-=' + distance
+                    }, {
+                        duration: snakeMovingSpeed
+                        , step: function (now, fx) {
+                            var n = parseInt(now);
+                            $(this).css("left", n);
+                        }
+                    });
+                }
+            }
+        }
+        // 設定蛇蛇大小
+        function SetSnakeSize(level) {
+            if (snakeResize) {
+                level = (level > MaxSnakeLevel ? MaxSnakeLevel : level);
+                $('.snake img').prop('src', "images/snake_" + level + ".png").prop('height', defaultSnakeHeight + ((level - 1) * 20));
+                $(".snake").css({
+                    'height': (defaultSnakeHeight + ((level - 1) * 20)) + 'px'
+                    , 'top': borderBottom - (defaultSnakeHeight + ((level - 1) * 20)) + 'px'
+                });
+                DragSetup(((level - 1) * 20));
+            }
+        }
+        // 設定物件可拖移
+        function DragSetup(top_offset) {
+            $("#snake").draggable({
+                drag: function (event, ui) {
+                    ui.position.top = borderTop - $("#snake").height() + 'px';
+                    if (ui.position.left < borderLeft) {
+                        ui.position.left = borderLeft + 'px';
+                    }
+                    else if (ui.position.left > (borderRight - $("#snake").width())) {
+                        ui.position.left = (borderRight - $("#snake").width()) + 'px';
+                    }
+                }
+            });
+        }
+        // 重設視窗大小
+        function onReSizePage() {
+            screenWidth = $('.box').width();
+            $('.startWindow').width(screenWidth - 44);
+            arrowSize = Math.floor(screenWidth / 4) - 20;
+            $('.showMsg').css('font-size', arrowSize * 2 + 'px');
+            $('.panel-footer').height(arrowSize + 20);
+            $('.arrow').css('width', arrowSize).css('height', arrowSize);
+            $('.gamePad').css('width', arrowSize + 10).css('height', arrowSize + 10);
+            height = $(window).height();
+            headerHeight = $('.panel-heading').height();
+            footerHeight = $('.panel-footer').height();
+            bodyHeight = height - headerHeight - footerHeight - 22;
+            $('.panel-body').height(bodyHeight);
+            borderTop = $('.panel-body').position().top;
+            borderLeft = $('.panel-body').position().left + 20;
+            borderRight = borderLeft + screenWidth - 44;
+            borderBottom = borderTop + bodyHeight;
+        }
+        //播放音效
+        function PlayEffectSound(sound) {
+            if (AllowEffectSound) {
+                sound.pause();
+                sound.currentTime = 0;
+                sound.play();
+            }
+        }
+        // 按下按鍵
+        function userKeyIn(key) {
+            $('.key-' + key).addClass('push');
+            if (key == 'left') MoveSnake(-1);
+            if (key == 'right') MoveSnake(1);
+        }
+        // 放開按鍵
+        function userKeyUp(key) {
+            $('.key-' + key).removeClass('push');
+            MoveSnake(0);
+        }
+        // 遊戲結束
+        function GameOver() {
+            PlayEffectSound(die);
+            var msg = '你吃了 ' + score + '個小吃，持久度 ' + aliveTime + ' 秒 \r\n';
+            msg += '【評語】：' + GetComment(score);
+            alert(msg);
+            InitGame();
+        }
+        // 結果評語
+        function GetComment(Myscore) {
+            var scoreLevel = 0;
+            scoreLevel = Math.floor(Myscore / 10);
+            if (scoreLevel == 0) {
+                return "夜市是很危險的，你還是回家當魯蛇吧。";
+            }
+            else if (scoreLevel > 0 && scoreLevel <= 3) {
+                return "區區魯蛇也敢這麼囂張，你還未夠班!!";
+            }
+            else if (scoreLevel > 3 && scoreLevel <= 6) {
+                return "當魯蛇還不夠？想當個肥魯蛇嗎!!";
+            }
+            else if (scoreLevel > 6 && scoreLevel <= 9) {
+                return "天啊!!我開始覺得你有點強惹";
+            }
+            else if (scoreLevel > 9 && scoreLevel <= 12) {
+                return "娘子~快跟我出來看上帝";
+            }
+            else if (scoreLevel > 12) {
+                return "你已經成為溫拿了!!";
+            }
+        }
+    </script>
+</body>
+
+</html>
