@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+	<link rel="icon" href="images/favicon.png">
+	<title>貪吃的魯蛇－魯蛇逛夜市</title>
+	<meta property="og:type" content="website">
+	<meta property="og:title" content="貪吃的魯蛇－魯蛇逛夜市">
+	<meta property="og:description" content="吃遍各式小吃，用盡吃奶的力氣閃避來自前方的的炸彈和障礙物吧！">
+	<meta property="og:image" content="http://snake-nm.efuntw.com/images/snake_share.jpg">
+	<meta property="og:image:width" content="1200">
+	<meta property="og:image:height" content="628">
+	<!-- Latest compiled and minified CSS -->
+	<link href="css/bootstrap.min.css" rel="stylesheet" media="screen" />
+	<link href="css/animate.css" rel="stylesheet" media="screen" />
+	<link href="css/snake.css?ver=2.0" rel="stylesheet" media="screen" /> 
+	<style>
+		.startGame {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin: 0px auto;
+			position:absolute;
+			bottom:6%;
+		}
+		.row {
+			text-align: left;
+			color: #1F7084;
+			white-space: nowrap;
+			margin-bottom: 3px;
+		}
+		._data_container{
+			padding: 0px 0px 0px 5%;
+		}
+		body{
+			font-size: 12px;
+		}
+	</style>
+</head>
+<body class="game-page-bg">
+
+	<div class="container center">
+		<div class="panel panel-default box center">
+			<div class="panel-body center">
+				<div class="panel-header" style="display:none;">
+					<div class="header-score">
+						<img id="score_img" src="images/eat_icon.png"/><li id="score"></li>
+						<img id="clock_img" src="images/clock_icon.png"/><li id="aliveTime"></li>
+					</div>
+					<div class="header-level"><img src="images/level.png"/><li id="level"></li></div>
+				</div>
+				<div class="introWindows center" style="display:;z-index: 999;">
+					<div class="intro_page center"><img src="images/intro_page.png" width="100%" height="100%" /></div>
+					<div class="startGame" ><img src="images/btn_intro_start.png"/></div>
+				</div>
+
+<!--
+				<div class="startWindow">
+						<div class="startGame"><img border="0" alt="Start Game" width="50%" src="images/start.png"></div>
+				</div>
+-->
+				<div class="shareWindow center" style="display:none;overflow-y:scroll;">
+					<div class="shareWindow-background" style="position:relative"><img id="shareWindow_img" alt="" src=""/></div>
+					<div class="shareWindow-content" style="position:relative;top:0px;left:0px;width:100%;height:73%">
+						<div id="txt" style="height:40%">
+							<div id="result_gg" class="center"> 50 公尺</div>
+							<div id="result_rank" class="center" >排行 1 名</div>
+							<div id="result_comment" class="center" ></div>
+						</div>
+						<div id="btnArea" style="height:60%">
+							<div style="margin-bottom:15px"><a class="btn-restart" href="javascript:document.location.href='hungrysnake.html'"><img border="0" alt="restart" src="images/restart.png"></a></div>
+							<div style="margin-bottom:10px">
+								<a class="btn-share" style="display:none" href="#" onclick="fb_share();"><img border="0" alt="share" src="images/fb_share.png"></a>
+								<a class="btn-fblogin" style="display:none" href="#" onclick="fb_login();"><img src="images/facebook_login.png" border="0" alt=""></a>
+								<a class="btn-download" href="javascript:alert('敬請期待');"><img border="0" alt="download" src="images/download.png"></a>
+							</div>
+							<div>
+<!--								<a class="btn-rank" href="index.html?act=showrank"><img border="0" alt="rank" src="images/rank.png"></a>-->
+<!--								<a class="btn-invite" style="display:none;" href="javascript:void(0);"><img border="0" alt="invite" src="images/invite_friend.png"></a>-->
+							</div>						
+						</div>
+						<div id="global" class="_data_container"></div>
+					</div>
+					
+				</div>
+				<div class="showMsg" > <span id="showMsg"></span> </div>
+				<div class='panel-ground center'>
+					<div class="fallingsky"><img src="images/fallingsky.png" width="100%"/></div>
+					<div class='panel-sink center prevSink' id="prevSink"></div>
+					<div class='panel-background center beginBackGround' id="beginBackGround"><img src='images/infinity_bg.jpg' width='100%'/></div>
+					<div class="snake" id="snake" style="display:none"><img src="images/snake_1.png" /></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="js/jquery-3.1.1.js"></script>
+	<script type="text/javascript" src="js/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="js/jquery.ui.touch-punch.min.js"></script>
+	<script type="text/javascript" src="js/jquery.preload.min.js"></script>
+		<script type="text/javascript">
+		// Load the SDK asynchronously
+		(function (d, s, id) {
+			var js, fjs = d.getElementsByTagName(s)[0];
+			if (d.getElementById(id)) return;
+			js = d.createElement(s);
+			js.id = id;
+			js.src = "//connect.facebook.net/en_US/sdk.js";
+			fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+	</script>
+    <script src="js/snake_v1.1.js?ver=1.1.2"></script>
+</body>
+
+</html>
